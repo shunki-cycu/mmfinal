@@ -1,0 +1,8 @@
+[
+    { "id": 1, "name": "無穀天然全期貓糧", "category": "貓", "age": "成年", "subCategory": "飼料", "price": 850, "icon": "🐱", "note": "高鮮肉含量", "rating": 4.8, "reviews": 12, "description": "採用嚴選野生鮭魚，高鮮肉含量無穀配方，特別適合腸胃敏感的貓咪，提供日常所需優質蛋白質。" },
+    { "id": 2, "name": "幼犬成長配方飼料", "category": "狗", "age": "幼年", "subCategory": "飼料", "price": 920, "icon": "🐶", "note": "發育期必備", "rating": 4.5, "reviews": 8, "description": "富含高鈣與DHA，為幼犬的骨骼與腦部發育打下良好基礎，小顆粒設計更方便咀嚼。" },
+    { "id": 3, "name": "高纖提摩西牧草條", "category": "兔子", "age": "成年", "subCategory": "零食", "price": 350, "icon": "🐰", "note": "幫助化毛", "rating": 4.9, "reviews": 30, "description": "天然高纖維提摩西草壓製而成，幫助兔兔日常磨牙並促進腸道蠕動，有效預防毛球症。" },
+    { "id": 4, "name": "法蘭絨保暖寵物衣服", "category": "狗", "age": "成年", "subCategory": "服飾與飾品", "price": 390, "icon": "👕", "note": "冬天必備保暖", "rating": 4.7, "reviews": 50, "description": "超柔軟法蘭絨材質，貼身保暖不產生靜電。出門散步防風必備。(購買時請於購物車確認尺寸)" },
+    { "id": 5, "name": "貓用綜合營養主食罐", "category": "貓", "age": "成年", "subCategory": "罐頭", "price": 55, "icon": "🐟", "note": "補充水分", "rating": 4.6, "reviews": 105, "description": "含水量高達80%，讓不愛喝水的貓咪邊吃邊補水，慕斯質地適口性極佳。" },
+    { "id": 6, "name": "防爆衝反光胸背帶", "category": "狗", "age": "成年", "subCategory": "胸背帶", "price": 580, "icon": "🦮", "note": "夜間安全", "rating": 4.4, "reviews": 22, "description": "人體工學設計分散拉力不傷氣管，高反光條讓夜間散步更安全可靠。" }
+]

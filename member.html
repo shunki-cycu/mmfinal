@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員中心 | 萌寵商城</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">🐾 萌寵商城</div>
+        <div class="nav-links">
+            <a href="index.html">首頁</a>
+            <a href="products.html">商品總覽</a>
+            <a href="member.html" class="active">會員中心</a>
+            <a href="cart.html">購物車</a>
+        </div>
+    </nav>
+
+    <main class="container container-layout">
+        <aside class="sidebar">
+            <h3>👤 會員選單</h3>
+            <ul class="category-list" id="member-tabs">
+                <li data-target="profile" class="active">帳號登入/註冊</li>
+                <li data-target="orders" id="tab-orders" style="display:none;">我的消費紀錄</li>
+                <li data-target="reviews" id="tab-reviews" style="display:none;">我的評論紀錄</li>
+            </ul>
+        </aside>
+
+        <div class="main-content form-container" style="margin: 0;">
+            
+            <div id="section-profile" class="tab-content active">
+                
+                <div id="login-section">
+                    <h2>🔐 會員登入</h2>
+                    <form id="login-form">
+                        <div class="form-group"><label>姓名：</label><input type="text" id="login-name" placeholder="請輸入註冊時的姓名" required></div>
+                        <div class="form-group"><label>電子信箱：</label><input type="email" id="login-email" placeholder="example@mail.com" required></div>
+                        <button type="submit" class="btn btn-block">登入</button>
+                        <p style="text-align: center; margin-top: 15px;">還沒有帳號嗎？ <a href="#" id="show-register" style="color: #f39c12; font-weight: bold;">點此註冊</a></p>
+                    </form>
+                </div>
+
+                <div id="register-section" style="display: none;">
+                    <h2>📝 註冊新會員與寵物資料</h2>
+                    <form id="register-form">
+                        <div class="form-group"><label>姓名：</label><input type="text" id="reg-name" required></div>
+                        <div class="form-group"><label>電子信箱：</label><input type="email" id="reg-email" required></div>
+                        <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
+                        <h3 style="margin-bottom: 10px;">❤️ 家中寵物資料 (用於商品推薦)</h3>
+                        <div class="form-group"><label>寵物種類：</label><select id="reg-pet-type" required><option value="">--請選擇--</option><option value="狗">狗</option><option value="貓">貓</option><option value="倉鼠">倉鼠</option><option value="兔子">兔子</option></select></div>
+                        <div class="form-group"><label>品種：</label><input type="text" id="reg-pet-breed" placeholder="例如：柴犬、波斯貓..."></div>
+                        <div class="form-group"><label>年齡階段：</label><select id="reg-pet-age" required><option value="幼年">幼年</option><option value="成年">成年</option><option value="高齡">高齡</option></select></div>
+                        <div class="form-group"><label>體型：</label><select id="reg-pet-size"><option value="小型">小型</option><option value="中型">中型</option><option value="大型">大型</option></select></div>
+                        <button type="submit" class="btn btn-block">確認註冊並登入</button>
+                        <p style="text-align: center; margin-top: 15px;">已經有帳號了？ <a href="#" id="show-login" style="color: #f39c12; font-weight: bold;">返回登入</a></p>
+                    </form>
+                </div>
+
+                <div id="logged-in-section" style="display: none; text-align: center;">
+                    <h2 id="welcome-msg">歡迎回來！</h2>
+                    <p>您已成功登入，可於左側選單查看您的歷史訂單與評論紀錄。</p>
+                    <button id="logout-btn" class="btn btn-secondary" style="margin-top: 20px;">登出帳號</button>
+                </div>
+
+            </div>
+
+            <div id="section-orders" class="tab-content" style="display: none;">
+                <h2>📦 我的專屬消費紀錄</h2>
+                <div id="order-history-list"></div>
+            </div>
+
+            <div id="section-reviews" class="tab-content" style="display: none;">
+                <h2>💬 我的評論與評分紀錄</h2>
+                <div id="review-history-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="pet-confirm-modal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <h2 style="text-align: center; color: #f39c12;">🐾 確認或更新您的寵物資料</h2>
+            <p style="text-align: center; color: #777;">登入成功！我們將依據此資料為您在首頁推薦商品。</p>
+            <form id="pet-confirm-form">
+                <div class="form-group"><label>寵物種類：</label><select id="conf-pet-type" required><option value="狗">狗</option><option value="貓">貓</option><option value="倉鼠">倉鼠</option><option value="兔子">兔子</option></select></div>
+                <div class="form-group"><label>品種：</label><input type="text" id="conf-pet-breed"></div>
+                <div class="form-group"><label>年齡階段：</label><select id="conf-pet-age" required><option value="幼年">幼年</option><option value="成年">成年</option><option value="高齡">高齡</option></select></div>
+                <div class="form-group"><label>體型：</label><select id="conf-pet-size"><option value="小型">小型</option><option value="中型">中型</option><option value="大型">大型</option></select></div>
+                <button type="submit" class="btn btn-block" style="background-color: #27ae60;">確認並前往首頁購物</button>
+            </form>
+        </div>
+    </div>
+
+    <footer><p>© 2026 萌寵商城 第十三組期末專案</p></footer>
+    <script src="js/member.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>購物車與結帳 | 萌寵商城</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">🐾 萌寵商城</div>
+        <div class="nav-links">
+            <a href="index.html">首頁</a>
+            <a href="products.html">商品總覽</a>
+            <a href="member.html">會員中心</a>
+            <a href="cart.html" class="active">購物車</a>
+        </div>
+    </nav>
+
+    <main class="container container-layout">
+        <section class="main-content">
+            <h2>🛒 購物車內容確認</h2>
+            <div id="cart-items-container"></div>
+            
+            <div class="cart-summary" style="margin-top: 20px; text-align: right; font-size: 1.1rem; background: #fff; padding: 15px; border-radius: 8px;">
+                <p>商品小計：NT$ <span id="cart-subtotal">0</span></p>
+                <p>原始運費：NT$ <span id="cart-shipping">0</span></p>
+                <p id="free-shipping-row" style="display: none; color: #27ae60; font-weight: bold;">滿額免運優惠：- NT$ <span id="cart-discount">0</span></p>
+                <hr style="border-top: 1px dashed #ccc; margin: 10px 0;">
+                <strong style="color: #e67e22; font-size: 1.4rem;">全部總計：NT$ <span id="cart-total">0</span></strong>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 5px;">※ 全館滿 NT$3,000 享免運優惠！</p>
+            </div>
+        </section>
+
+        <aside class="sidebar" style="flex: 1;">
+            <h2>💳 填寫付款與配送資料</h2>
+            <form id="checkout-form">
+                <div class="form-group"><label>收件人姓名：</label><input type="text" required></div>
+                <div class="form-group"><label>聯絡電話：</label><input type="tel" required></div>
+                
+                <div class="form-group">
+                    <label>運送方式：</label>
+                    <select id="shipping-method" required>
+                        <option value="store">超商取貨 (運費 $65)</option>
+                        <option value="home">宅配到府 (運費 $110)</option>
+                    </select>
+                </div>
+                <div class="form-group" id="address-group">
+                    <label id="address-label">取貨門市 / 收件地址：</label>
+                    <input type="text" required placeholder="請輸入資料">
+                </div>
+
+                <div class="form-group">
+                    <label>付款方式：</label>
+                    <select id="payment-method" required>
+                        <option value="credit">線上信用卡</option>
+                        <option value="transfer">銀行轉帳</option>
+                        <option value="cod">貨到付款</option>
+                        <option value="linepay">Line Pay</option>
+                        <option value="applepay">Apple Pay</option>
+                        <option value="jkopay">街口支付</option>
+                    </select>
+                </div>
+
+                <div class="form-group dynamic-field" id="field-credit"><label>信用卡號：</label><input type="text" placeholder="xxxx-xxxx-xxxx-xxxx" maxlength="19"></div>
+                <div class="form-group dynamic-field" id="field-transfer" style="display: none;"><label>轉帳帳號後五碼：</label><input type="text" placeholder="請填寫末五碼便於對帳" maxlength="5"></div>
+                <div class="form-group dynamic-field" id="field-mobilepay" style="display: none;"><p style="color: #3498db; font-size: 0.9rem;">送出訂單後，將自動跳轉至第三方支付畫面。</p></div>
+
+                <button type="submit" class="btn btn-block" style="background-color: #27ae60; margin-top: 15px;">確認付款並成立訂單</button>
+            </form>
+        </aside>
+    </main>
+    <footer><p>© 2026 萌寵商城 第十三組期末專案</p></footer>
+    <script src="js/main.js"></script>
+</body>
+</html>

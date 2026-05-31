@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品總覽 | 萌寵商城</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">🐾 萌寵商城</div>
+        <div class="nav-links">
+            <a href="index.html">首頁</a>
+            <a href="products.html" class="active">商品總覽</a>
+            <a href="member.html">會員中心</a>
+            <a href="cart.html">購物車 (<span id="cart-count2">0</span>)</a>
+        </div>
+    </nav>
+
+    <div class="container container-layout">
+        <aside class="sidebar">
+            <h3>🛍️ 商品分類</h3>
+            <ul class="category-list" id="category-list">
+                <li data-cat="all" class="active">全部商品</li>
+                <li data-cat="飼料">飼料</li>
+                <li data-cat="罐頭">罐頭</li>
+                <li data-cat="零食">零食</li>
+                <li data-cat="保健食品">保健食品</li>
+                <li data-cat="衛生與清潔用品">衛生清潔</li>
+                <li data-cat="玩具">玩具</li>
+                <li data-cat="睡窩與床墊">睡窩與床墊</li>
+                <li data-cat="項圈">項圈</li>
+                <li data-cat="胸背帶">胸背帶</li>
+                <li data-cat="牽繩">牽繩</li>
+                <li data-cat="服飾與飾品">服飾與飾品</li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-controls">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="搜尋商品名稱...">
+                </div>
+                <div class="compact-filters">
+                    <select id="filter-pet">
+                        <option value="">所有寵物</option>
+                        <option value="狗">狗</option>
+                        <option value="貓">貓</option>
+                        <option value="倉鼠">倉鼠</option>
+                        <option value="兔子">兔子</option>
+                    </select>
+                    <select id="filter-age">
+                        <option value="">所有年齡</option>
+                        <option value="幼年">幼年</option>
+                        <option value="成年">成年</option>
+                        <option value="高齡">高齡</option>
+                    </select>
+                </div>
+            </div>
+            <div class="product-grid" id="all-products-grid"></div>
+        </main>
+    </div>
+    <footer><p>© 2026 萌寵商城 第十三組期末專案</p></footer>
+    <script src="js/main.js"></script>
+</body>
+</html>

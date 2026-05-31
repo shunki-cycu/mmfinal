@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>萌寵商城 | 首頁</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">🐾 萌寵商城</div>
+        <div class="search-bar">
+            <input type="text" id="global-search" placeholder="搜尋商品...">
+            <button onclick="window.location.href='products.html'">搜尋</button>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="active">首頁</a>
+            <a href="products.html">商品總覽</a>
+            <a href="member.html">會員中心</a>
+            <a href="cart.html">購物車 (<span id="cart-count">0</span>)</a>
+        </div>
+    </nav>
+
+    <header class="carousel-container">
+        <div class="carousel-track">
+            <a href="products.html"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80" alt="廣告1"></a>
+            <a href="products.html"><img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80" alt="廣告2"></a>
+            <a href="products.html"><img src="https://images.unsplash.com/photo-1425082661705-1834bfd0999c?auto=format&fit=crop&w=600&q=80" alt="廣告3"></a>
+            <a href="products.html"><img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=600&q=80" alt="廣告4"></a>
+            <a href="products.html"><img src="https://images.unsplash.com/photo-1522276498395-f4f68f7f8454?auto=format&fit=crop&w=600&q=80" alt="廣告5"></a>
+            <a href="products.html"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80" alt="廣告1"></a>
+            <a href="products.html"><img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80" alt="廣告2"></a>
+            <a href="products.html"><img src="https://images.unsplash.com/photo-1425082661705-1834bfd0999c?auto=format&fit=crop&w=600&q=80" alt="廣告3"></a>
+            <a href="products.html"><img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=600&q=80" alt="廣告4"></a>
+            <a href="products.html"><img src="https://images.unsplash.com/photo-1522276498395-f4f68f7f8454?auto=format&fit=crop&w=600&q=80" alt="廣告5"></a>
+        </div>
+    </header>
+
+    <section class="pet-status-container">
+        <div class="pet-status-card" id="current-pet-info">
+            <h3>目前依據的寵物資料</h3>
+            <p>尚未設定寵物資料，目前顯示一般推薦。 <a href="member.html">點此去登入設定</a></p>
+        </div>
+    </section>
+
+    <main class="container">
+        <h2 class="section-title">✨ 為您的愛寵專屬精選推薦</h2>
+        <div class="product-grid" id="featured-products"></div>
+    </main>
+
+    <footer><p>© 2026 萌寵商城 第十三組期末專案</p></footer>
+    <script src="js/main.js"></script>
+</body>
+</html>
