@@ -1,97 +1,74 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>會員中心 | 萌寵商城</title>
+    <title>會員中心｜萌寵商城</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">🐾 萌寵商城</div>
-        <div class="nav-links">
-            <a href="index.html">首頁</a>
-            <a href="products.html">商品總覽</a>
-            <a href="member.html" class="active">會員中心</a>
-            <a href="cart.html">購物車</a>
+    <div class="top-note">滿 NT$3,000 宅配免運・下單前記得確認適用年齡與體型</div>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html"><span class="brand-mark">爪</span><span class="brand-copy">萌寵商城</span></a>
+            <form class="global-search-form" role="search"><input type="search" placeholder="搜尋飼料、玩具或保健品" aria-label="搜尋商品"><button type="submit">搜尋</button></form>
+            <button class="menu-toggle" type="button" aria-label="開啟導覽選單" aria-expanded="false">☰</button>
+            <nav class="nav-links" aria-label="主要導覽">
+                <a href="index.html">首頁</a><a href="products.html">商品總覽</a><a href="about.html">關於我們</a><a class="active" data-member-link href="member.html">會員中心</a><a class="cart-link" href="cart.html">購物車 <span class="cart-count" data-cart-count>0</span></a>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <main class="container container-layout">
-        <aside class="sidebar">
-            <h3>👤 會員選單</h3>
-            <ul class="category-list" id="member-tabs">
-                <li data-target="profile" class="active">帳號登入/註冊</li>
-                <li data-target="orders" id="tab-orders" style="display:none;">我的消費紀錄</li>
-                <li data-target="reviews" id="tab-reviews" style="display:none;">我的評論紀錄</li>
-            </ul>
-        </aside>
-
-        <div class="main-content form-container" style="margin: 0;">
-            
-            <div id="section-profile" class="tab-content active">
-                
-                <div id="login-section">
-                    <h2>🔐 會員登入</h2>
-                    <form id="login-form">
-                        <div class="form-group"><label>姓名：</label><input type="text" id="login-name" placeholder="請輸入註冊時的姓名" required></div>
-                        <div class="form-group"><label>電子信箱：</label><input type="email" id="login-email" placeholder="example@mail.com" required></div>
-                        <button type="submit" class="btn btn-block">登入</button>
-                        <p style="text-align: center; margin-top: 15px;">還沒有帳號嗎？ <a href="#" id="show-register" style="color: #f39c12; font-weight: bold;">點此註冊</a></p>
+    <main class="page-main" id="member-dashboard">
+        <div class="container">
+            <section class="member-hero">
+                <div><span class="eyebrow">會員中心</span><h1>您好，<span id="member-name"></span></h1><p id="member-email"></p></div>
+                <button class="btn btn-secondary" id="logout-button" type="button">登出</button>
+            </section>
+            <div class="member-grid">
+                <section class="member-card">
+                    <h2>我的寵物資料</h2>
+                    <form id="pet-edit-form">
+                        <div class="form-row">
+                            <div class="form-group"><label for="edit-pet-type">寵物種類</label><select id="edit-pet-type" required><option value="狗">狗</option><option value="貓">貓</option><option value="倉鼠">倉鼠</option><option value="兔子">兔子</option></select></div>
+                            <div class="form-group"><label for="edit-pet-breed">品種</label><input id="edit-pet-breed" type="text" placeholder="例如：米克斯"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label for="edit-pet-age">年齡階段</label><select id="edit-pet-age" required><option value="幼年">幼年</option><option value="成年">成年</option><option value="高齡">高齡</option></select></div>
+                            <div class="form-group"><label for="edit-pet-size">體型</label><select id="edit-pet-size" required><option value="小型">小型</option><option value="中型">中型</option><option value="大型">大型</option></select></div>
+                        </div>
+                        <div class="form-group">
+                            <span class="form-label">健康需求</span>
+                            <div class="checkbox-grid">
+                                <label class="check-chip"><input type="checkbox" name="edit-health" value="腸胃敏感"><span>腸胃敏感</span></label>
+                                <label class="check-chip"><input type="checkbox" name="edit-health" value="皮毛保養"><span>皮毛保養</span></label>
+                                <label class="check-chip"><input type="checkbox" name="edit-health" value="關節保養"><span>關節保養</span></label>
+                                <label class="check-chip"><input type="checkbox" name="edit-health" value="體重管理"><span>體重管理</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group"><label for="edit-allergy">過敏資訊</label><input id="edit-allergy" type="text" placeholder="例如：雞肉、魚類；沒有可留空"></div>
+                        <p class="form-message" id="pet-edit-message"></p>
+                        <button class="btn" type="submit">儲存資料</button>
                     </form>
-                </div>
-
-                <div id="register-section" style="display: none;">
-                    <h2>📝 註冊新會員與寵物資料</h2>
-                    <form id="register-form">
-                        <div class="form-group"><label>姓名：</label><input type="text" id="reg-name" required></div>
-                        <div class="form-group"><label>電子信箱：</label><input type="email" id="reg-email" required></div>
-                        <hr style="border-top: 1px dashed #ccc; margin: 15px 0;">
-                        <h3 style="margin-bottom: 10px;">❤️ 家中寵物資料 (用於商品推薦)</h3>
-                        <div class="form-group"><label>寵物種類：</label><select id="reg-pet-type" required><option value="">--請選擇--</option><option value="狗">狗</option><option value="貓">貓</option><option value="倉鼠">倉鼠</option><option value="兔子">兔子</option></select></div>
-                        <div class="form-group"><label>品種：</label><input type="text" id="reg-pet-breed" placeholder="例如：柴犬、波斯貓..."></div>
-                        <div class="form-group"><label>年齡階段：</label><select id="reg-pet-age" required><option value="幼年">幼年</option><option value="成年">成年</option><option value="高齡">高齡</option></select></div>
-                        <div class="form-group"><label>體型：</label><select id="reg-pet-size"><option value="小型">小型</option><option value="中型">中型</option><option value="大型">大型</option></select></div>
-                        <button type="submit" class="btn btn-block">確認註冊並登入</button>
-                        <p style="text-align: center; margin-top: 15px;">已經有帳號了？ <a href="#" id="show-login" style="color: #f39c12; font-weight: bold;">返回登入</a></p>
-                    </form>
-                </div>
-
-                <div id="logged-in-section" style="display: none; text-align: center;">
-                    <h2 id="welcome-msg">歡迎回來！</h2>
-                    <p>您已成功登入，可於左側選單查看您的歷史訂單與評論紀錄。</p>
-                    <button id="logout-btn" class="btn btn-secondary" style="margin-top: 20px;">登出帳號</button>
-                </div>
-
-            </div>
-
-            <div id="section-orders" class="tab-content" style="display: none;">
-                <h2>📦 我的專屬消費紀錄</h2>
-                <div id="order-history-list"></div>
-            </div>
-
-            <div id="section-reviews" class="tab-content" style="display: none;">
-                <h2>💬 我的評論與評分紀錄</h2>
-                <div id="review-history-list"></div>
+                </section>
+                <section class="member-card">
+                    <h2>最近訂單</h2>
+                    <div id="member-order-list"></div>
+                </section>
             </div>
         </div>
     </main>
 
-    <div id="pet-confirm-modal" class="modal">
-        <div class="modal-content" style="max-width: 500px;">
-            <h2 style="text-align: center; color: #f39c12;">🐾 確認或更新您的寵物資料</h2>
-            <p style="text-align: center; color: #777;">登入成功！我們將依據此資料為您在首頁推薦商品。</p>
-            <form id="pet-confirm-form">
-                <div class="form-group"><label>寵物種類：</label><select id="conf-pet-type" required><option value="狗">狗</option><option value="貓">貓</option><option value="倉鼠">倉鼠</option><option value="兔子">兔子</option></select></div>
-                <div class="form-group"><label>品種：</label><input type="text" id="conf-pet-breed"></div>
-                <div class="form-group"><label>年齡階段：</label><select id="conf-pet-age" required><option value="幼年">幼年</option><option value="成年">成年</option><option value="高齡">高齡</option></select></div>
-                <div class="form-group"><label>體型：</label><select id="conf-pet-size"><option value="小型">小型</option><option value="中型">中型</option><option value="大型">大型</option></select></div>
-                <button type="submit" class="btn btn-block" style="background-color: #27ae60;">確認並前往首頁購物</button>
-            </form>
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div><div class="footer-brand">萌寵商城</div><p>幫你更快找到適合毛孩的日常用品，買得簡單，也更安心。</p></div>
+            <div><h3>購物說明</h3><div class="footer-links"><a href="about.html#shipping">配送政策</a><a href="about.html#returns">退換貨說明</a><a href="about.html#faq">常見問題</a></div></div>
+            <div><h3>會員服務</h3><div class="footer-links"><a href="login.html">會員登入</a><a href="register.html">建立毛孩資料</a><a href="member.html">訂單紀錄</a></div></div>
+            <div><h3>聯絡我們</h3><p>客服信箱：hello@pawdays.tw<br>服務時間：週一至週五 10:00–18:00</p></div>
         </div>
-    </div>
-
-    <footer><p>© 2026 萌寵商城 第十三組期末專案</p></footer>
+        <div class="footer-bottom">© 2026 萌寵商城・第十三組期末專案</div>
+    </footer>
+    <script src="js/main.js"></script>
     <script src="js/member.js"></script>
 </body>
 </html>

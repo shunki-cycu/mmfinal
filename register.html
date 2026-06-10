@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員註冊｜萌寵商城</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="top-note">滿 NT$3,000 宅配免運・下單前記得確認適用年齡與體型</div>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html"><span class="brand-mark">爪</span><span class="brand-copy">萌寵商城</span></a>
+            <form class="global-search-form" role="search"><input type="search" placeholder="搜尋飼料、玩具或保健品" aria-label="搜尋商品"><button type="submit">搜尋</button></form>
+            <button class="menu-toggle" type="button" aria-label="開啟導覽選單" aria-expanded="false">☰</button>
+            <nav class="nav-links" aria-label="主要導覽"><a href="index.html">首頁</a><a href="products.html">商品總覽</a><a href="about.html">關於我們</a><a class="active" data-member-link href="login.html">會員登入</a><a class="cart-link" href="cart.html">購物車 <span class="cart-count" data-cart-count>0</span></a></nav>
+        </div>
+    </header>
+    <main class="page-main">
+        <div class="narrow-container form-shell">
+            <section class="auth-form">
+                <span class="eyebrow">建立推薦條件</span><h2>會員與毛孩資料</h2><p>填寫基本資料後，首頁與商品總覽會優先顯示較符合的用品。</p>
+                <form id="register-form">
+                    <div class="form-row">
+                        <div class="form-group"><label for="register-name">姓名</label><input id="register-name" type="text" required></div>
+                        <div class="form-group"><label for="register-email">電子信箱</label><input id="register-email" type="email" required></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label for="register-password">密碼</label><input id="register-password" type="password" minlength="6" required><small class="form-help">至少 6 個字元</small></div>
+                        <div class="form-group"><label for="register-password-confirm">確認密碼</label><input id="register-password-confirm" type="password" minlength="6" required></div>
+                    </div>
+                    <h3 class="form-section-title">毛孩資料</h3>
+                    <div class="form-row">
+                        <div class="form-group"><label for="register-pet-type">寵物種類</label><select id="register-pet-type" required><option value="">請選擇</option><option value="狗">狗</option><option value="貓">貓</option><option value="倉鼠">倉鼠</option><option value="兔子">兔子</option></select></div>
+                        <div class="form-group"><label for="register-pet-breed">品種</label><input id="register-pet-breed" type="text" placeholder="例如：米克斯"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label for="register-pet-age">年齡階段</label><select id="register-pet-age" required><option value="幼年">幼年</option><option value="成年">成年</option><option value="高齡">高齡</option></select></div>
+                        <div class="form-group"><label for="register-pet-size">體型</label><select id="register-pet-size" required><option value="小型">小型</option><option value="中型">中型</option><option value="大型">大型</option></select></div>
+                    </div>
+                    <div class="form-group">
+                        <span class="form-label">健康需求</span>
+                        <div class="checkbox-grid">
+                            <label class="check-chip"><input type="checkbox" name="health" value="腸胃敏感"><span>腸胃敏感</span></label>
+                            <label class="check-chip"><input type="checkbox" name="health" value="皮毛保養"><span>皮毛保養</span></label>
+                            <label class="check-chip"><input type="checkbox" name="health" value="關節保養"><span>關節保養</span></label>
+                            <label class="check-chip"><input type="checkbox" name="health" value="體重管理"><span>體重管理</span></label>
+                        </div>
+                    </div>
+                    <div class="form-group"><label for="register-allergy">過敏資訊</label><input id="register-allergy" type="text" placeholder="例如：雞肉、魚類；沒有可留空"></div>
+                    <p class="form-message" id="register-message"></p>
+                    <button class="btn btn-block" type="submit">完成註冊</button>
+                </form>
+                <p class="auth-switch">已經有帳號？<a class="text-link" href="login.html">回會員登入</a></p>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer"><div class="footer-bottom">© 2026 萌寵商城・第十三組期末專案</div></footer>
+    <script src="js/main.js"></script>
+    <script src="js/member.js"></script>
+</body>
+</html>

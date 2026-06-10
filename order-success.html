@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>訂單成立｜萌寵商城</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="top-note">謝謝您的訂購，我們會好好準備毛孩的用品</div>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html"><span class="brand-mark">爪</span><span class="brand-copy">萌寵商城</span></a>
+            <form class="global-search-form" role="search"><input type="search" placeholder="搜尋飼料、玩具或保健品" aria-label="搜尋商品"><button type="submit">搜尋</button></form>
+            <button class="menu-toggle" type="button" aria-label="開啟導覽選單" aria-expanded="false">☰</button>
+            <nav class="nav-links" aria-label="主要導覽"><a href="index.html">首頁</a><a href="products.html">商品總覽</a><a href="about.html">關於我們</a><a data-member-link href="login.html">會員登入</a><a class="cart-link" href="cart.html">購物車 <span class="cart-count" data-cart-count>0</span></a></nav>
+        </div>
+    </header>
+    <main class="page-main">
+        <div class="narrow-container success-card">
+            <div class="success-heading">
+                <div class="success-icon">✓</div>
+                <h1>感謝您的訂購！</h1>
+                <p>您的訂單已成立，我們將盡快為您安排出貨。</p>
+                <span class="order-number">訂單編號：<span id="success-order-id"></span></span>
+            </div>
+            <div id="order-success-detail"></div>
+            <div class="success-actions"><a class="btn" href="index.html">返回首頁</a><a class="btn btn-secondary" href="products.html">繼續逛商品</a></div>
+        </div>
+    </main>
+    <footer class="site-footer"><div class="footer-bottom">© 2026 萌寵商城・第十三組期末專案</div></footer>
+    <script src="js/main.js"></script>
+</body>
+</html>
