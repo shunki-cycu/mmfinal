@@ -16,6 +16,15 @@ function memberWrite(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
 }
 
+function memberEscapeHTML(value) {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
 function setupLoginForm() {
     const form = document.getElementById("login-form");
     if (!form) return;
@@ -149,6 +158,19 @@ function setupMemberCenter() {
             <div><span class="status-pill">${order.status || "準備中"}</span><strong>NT$ ${new Intl.NumberFormat("zh-TW").format(order.total)}</strong></div>
         </article>
     `).join("") : `<div class="empty-state compact"><p>目前還沒有訂單紀錄。</p><a class="text-link" href="products.html">去逛逛商品 →</a></div>`;
+
+    const reviews = memberRead("reviewsDB", [])
+        .filter(review => review.userEmail === user.email || review.author === user.name)
+        .sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
+    const reviewList = document.getElementById("member-review-list");
+    reviewList.innerHTML = reviews.length ? reviews.map(review => `
+        <article class="order-history-card">
+            <div><strong>${memberEscapeHTML(review.productName)}</strong><span>${memberEscapeHTML(review.date)}</span></div>
+            <div class="review-stars">★ ${memberEscapeHTML(review.rating)}</div>
+            <p>${memberEscapeHTML(review.comment)}</p>
+            <a class="text-link" href="product.html?id=${review.productId}">查看商品 →</a>
+        </article>
+    `).join("") : `<div class="empty-state compact"><p>目前還沒有投稿評價。</p><a class="text-link" href="products.html">選一項商品來評價 →</a></div>`;
 
     document.getElementById("logout-button").addEventListener("click", () => {
         localStorage.removeItem("currentUser");

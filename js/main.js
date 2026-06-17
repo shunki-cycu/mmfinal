@@ -3,7 +3,8 @@ const STORE = {
     currentUser: "currentUser",
     users: "usersDB",
     orders: "orders",
-    lastOrder: "lastOrder"
+    lastOrder: "lastOrder",
+    reviews: "reviewsDB"
 };
 
 let productsData = [];
@@ -25,6 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     renderHomePage();
+    renderPromoCarousel();
     setupProductsPage();
     renderProductDetailPage();
     renderCartPage();
@@ -47,6 +49,15 @@ function writeStorage(key, value) {
 
 function money(value) {
     return new Intl.NumberFormat("zh-TW").format(Number(value) || 0);
+}
+
+function escapeHTML(value) {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
 
 function getProduct(productId) {
@@ -137,7 +148,7 @@ function compatibility(product) {
 function productCard(product) {
     const match = compatibility(product);
     return `
-        <article class="product-card">
+        <article class="product-card" data-product-link="product.html?id=${product.id}" tabindex="0" role="link" aria-label="查看${product.name}">
             <a class="product-image-wrap" href="product.html?id=${product.id}" aria-label="查看${product.name}">
                 <img src="${product.image}" alt="${product.name}" loading="lazy">
                 ${match.label ? `<span class="match-badge ${match.className}">${match.label}</span>` : ""}
@@ -158,44 +169,78 @@ function productCard(product) {
 
 function bindAddCartButtons(container = document) {
     container.querySelectorAll("[data-add-cart]").forEach(button => {
-        button.addEventListener("click", () => {
+        button.addEventListener("click", event => {
+            event.stopPropagation();
             addToCart(Number(button.dataset.addCart), 1);
             showToast("已加入購物車");
         });
     });
 }
 
-function renderHomePage() {
-    const petPanel = document.getElementById("home-pet-panel");
-    const recommendationGrid = document.getElementById("featured-products");
-    if (!petPanel || !recommendationGrid) return;
+function bindProductCards(container = document) {
+    container.querySelectorAll("[data-product-link]").forEach(card => {
+        const goToProduct = event => {
+            if (event.target.closest("a, button")) return;
+            window.location.href = card.dataset.productLink;
+        };
+        card.addEventListener("click", goToProduct);
+        card.addEventListener("keydown", event => {
+            if (event.key !== "Enter" && event.key !== " ") return;
+            event.preventDefault();
+            window.location.href = card.dataset.productLink;
+        });
+    });
+}
 
-    if (currentUser?.pet) {
-        const pet = currentUser.pet;
-        petPanel.innerHTML = `
-            <div class="pet-avatar">${pet.type === "狗" ? "🐶" : pet.type === "貓" ? "🐱" : pet.type === "兔子" ? "🐰" : "🐹"}</div>
-            <div class="pet-panel-copy">
-                <span class="eyebrow">我的寵物資料</span>
-                <h2>${pet.breed || pet.type}・${pet.age}・${pet.size}</h2>
-                <p>健康需求：${pet.health?.length ? pet.health.join("、") : "目前沒有特別需求"}<br>過敏資訊：${pet.allergy || "未填寫"}</p>
-                <a class="text-link" href="member.html">查看或修改資料 →</a>
-            </div>
-        `;
-    } else {
-        petPanel.innerHTML = `
-            <div class="pet-avatar">🐾</div>
-            <div class="pet-panel-copy">
-                <span class="eyebrow">我的寵物資料</span>
-                <h2>先告訴我們家裡住著誰</h2>
-                <p>填寫種類、年齡與健康需求，找商品時就不用每次重新比對。</p>
-                <a class="btn" href="register.html">建立毛孩資料</a>
-            </div>
-        `;
-    }
+function renderHomePage() {
+    const recommendationGrid = document.getElementById("featured-products");
+    if (!recommendationGrid) return;
 
     const recommendations = sortByRecommendation(productsData).slice(0, 4);
     recommendationGrid.innerHTML = recommendations.map(productCard).join("");
     bindAddCartButtons(recommendationGrid);
+    bindProductCards(recommendationGrid);
+}
+
+function renderPromoCarousel() {
+    const carousel = document.getElementById("promo-carousel");
+    if (!carousel) return;
+
+    const promoProducts = sortByRecommendation(productsData).slice(0, 4);
+    if (!promoProducts.length) return;
+
+    let activeIndex = 0;
+    const renderSlide = () => {
+        const product = promoProducts[activeIndex];
+        carousel.innerHTML = `
+            <a class="promo-slide" href="product.html?id=${product.id}">
+                <div class="promo-image"><img src="${product.image}" alt="${product.name}"></div>
+                <div class="promo-copy">
+                    <span class="eyebrow">點擊看商品</span>
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <div class="rating-row"><span>★ ${product.rating}</span><span>${product.reviews} 則評價</span></div>
+                    <strong>NT$ ${money(product.price)}</strong>
+                </div>
+            </a>
+            <div class="promo-dots" aria-label="廣告輪播狀態">
+                ${promoProducts.map((_, index) => `<button type="button" class="${index === activeIndex ? "active" : ""}" data-promo-index="${index}" aria-label="查看第 ${index + 1} 張廣告"></button>`).join("")}
+            </div>
+        `;
+        carousel.querySelectorAll("[data-promo-index]").forEach(button => {
+            button.addEventListener("click", event => {
+                event.preventDefault();
+                activeIndex = Number(button.dataset.promoIndex);
+                renderSlide();
+            });
+        });
+    };
+
+    renderSlide();
+    window.setInterval(() => {
+        activeIndex = (activeIndex + 1) % promoProducts.length;
+        renderSlide();
+    }, 4200);
 }
 
 function setupProductsPage() {
@@ -232,6 +277,7 @@ function setupProductsPage() {
             ? sorted.map(productCard).join("")
             : `<div class="empty-state full-span"><span>🔎</span><h3>沒有符合條件的商品</h3><p>換個關鍵字，或少選一個條件再看看。</p></div>`;
         bindAddCartButtons(grid);
+        bindProductCards(grid);
     };
 
     Object.values(controls).forEach(control => {
@@ -288,11 +334,30 @@ function renderProductDetailPage() {
                 </div>
             </div>
         </section>
+        <section class="review-section" id="product-reviews">
+            <div class="section-heading">
+                <div><span class="eyebrow">商品評價</span><h2>買家評價與星等</h2></div>
+                <p>包含投稿者、日期、星等與使用心得，方便比較實際使用感受。</p>
+            </div>
+            <div class="review-layout">
+                <div>
+                    <div class="review-summary">
+                        <strong>★ ${product.rating}</strong>
+                        <span>${product.reviews} 則既有評價，加上會員投稿會即時顯示。</span>
+                    </div>
+                    <div class="review-list" id="product-review-list"></div>
+                </div>
+                <aside class="review-form-card" id="review-form-card"></aside>
+            </div>
+        </section>
         <section class="related-section">
             <div class="section-heading"><div><span class="eyebrow">也可以看看</span><h2>適合一起帶回家的商品</h2></div></div>
             <div class="product-grid" id="related-products"></div>
         </section>
     `;
+
+    renderProductReviews(product);
+    setupProductReviewForm(product);
 
     const quantity = document.getElementById("product-qty");
     document.getElementById("qty-minus").addEventListener("click", () => {
@@ -316,6 +381,113 @@ function renderProductDetailPage() {
     const relatedGrid = document.getElementById("related-products");
     relatedGrid.innerHTML = related.map(productCard).join("");
     bindAddCartButtons(relatedGrid);
+    bindProductCards(relatedGrid);
+}
+
+function sampleReviews(product) {
+    return [
+        {
+            author: `${product.petType}飼主 小安`,
+            date: "2026/05/18",
+            rating: product.rating,
+            comment: `${product.name} 的適用年齡與體型標示很清楚，購買前比較容易判斷是否適合。`
+        },
+        {
+            author: "回購會員 林同學",
+            date: "2026/05/02",
+            rating: Math.max(4, Math.round((product.rating - 0.2) * 10) / 10),
+            comment: `商品說明和注意事項寫得完整，尤其是 ${product.category} 類商品很需要先看成分。`
+        }
+    ];
+}
+
+function getStoredReviews(productId) {
+    return readStorage(STORE.reviews, [])
+        .filter(review => Number(review.productId) === Number(productId))
+        .sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
+}
+
+function renderProductReviews(product) {
+    const list = document.getElementById("product-review-list");
+    if (!list) return;
+
+    const reviews = [...getStoredReviews(product.id), ...sampleReviews(product)];
+    list.innerHTML = reviews.map(review => `
+        <article class="review-card">
+            <div class="review-card-head">
+                <strong>${escapeHTML(review.author)}</strong>
+                <span>${escapeHTML(review.date)}</span>
+            </div>
+            <div class="review-stars">★ ${escapeHTML(review.rating)}</div>
+            <p>${escapeHTML(review.comment)}</p>
+        </article>
+    `).join("");
+}
+
+function setupProductReviewForm(product) {
+    const card = document.getElementById("review-form-card");
+    if (!card) return;
+
+    if (!currentUser) {
+        card.innerHTML = `
+            <h3>我要留下評價</h3>
+            <p>登入會員後，可以投稿商品評價，並在會員中心查看自己的評價紀錄。</p>
+            <a class="btn btn-block" href="login.html">先登入會員</a>
+        `;
+        return;
+    }
+
+    card.innerHTML = `
+        <h3>我要留下評價</h3>
+        <form id="review-form">
+            <div class="form-group">
+                <label for="review-rating">星等</label>
+                <select id="review-rating" required>
+                    <option value="5">5 星，非常滿意</option>
+                    <option value="4">4 星，滿意</option>
+                    <option value="3">3 星，普通</option>
+                    <option value="2">2 星，需要改善</option>
+                    <option value="1">1 星，不推薦</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="review-comment">使用心得</label>
+                <textarea id="review-comment" rows="5" minlength="8" placeholder="請寫下商品使用心得" required></textarea>
+            </div>
+            <p class="form-message" id="review-message"></p>
+            <button class="btn btn-block" type="submit">送出評價</button>
+        </form>
+    `;
+
+    document.getElementById("review-form").addEventListener("submit", event => {
+        event.preventDefault();
+        const comment = document.getElementById("review-comment").value.trim();
+        const message = document.getElementById("review-message");
+        if (comment.length < 8) {
+            message.textContent = "心得至少需要 8 個字。";
+            message.className = "form-message error";
+            return;
+        }
+
+        const reviews = readStorage(STORE.reviews, []);
+        const now = new Date();
+        reviews.push({
+            id: `REV${Date.now()}`,
+            productId: product.id,
+            productName: product.name,
+            rating: Number(document.getElementById("review-rating").value),
+            comment,
+            author: currentUser.name,
+            userEmail: currentUser.email,
+            date: now.toLocaleDateString("zh-TW"),
+            createdAt: now.toISOString()
+        });
+        writeStorage(STORE.reviews, reviews);
+        message.textContent = "評價已送出，會員中心也會顯示這筆紀錄。";
+        message.className = "form-message success";
+        event.target.reset();
+        renderProductReviews(product);
+    });
 }
 
 function addToCart(productId, quantity = 1) {
