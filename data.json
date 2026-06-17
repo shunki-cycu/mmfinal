@@ -7,7 +7,7 @@
     "age": ["成年"],
     "size": ["小型", "中型", "大型"],
     "price": 850,
-    "image": "https://shunki-cycu.github.io/mmfinal/images/無穀鮭魚.png",
+    "image": "https://shunki-cycu.github.io/mmfinal/images/無穀鮭魚.png",,
     "icon": "🐱",
     "description": "鮭魚搭配雞肉的無穀配方，顆粒大小適中，適合成貓每天食用。",
     "ingredients": "鮭魚、雞肉、豌豆、魚油、牛磺酸",
