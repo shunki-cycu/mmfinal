@@ -407,6 +407,15 @@ function getStoredReviews(productId) {
         .sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
 }
 
+function canManageReview(review) {
+    return currentUser && review.id && (review.userEmail === currentUser.email || review.author === currentUser.name);
+}
+
+function deleteReview(reviewId) {
+    const reviews = readStorage(STORE.reviews, []);
+    writeStorage(STORE.reviews, reviews.filter(review => review.id !== reviewId));
+}
+
 function renderProductReviews(product) {
     const list = document.getElementById("product-review-list");
     if (!list) return;
@@ -415,13 +424,24 @@ function renderProductReviews(product) {
     list.innerHTML = reviews.map(review => `
         <article class="review-card">
             <div class="review-card-head">
-                <strong>${escapeHTML(review.author)}</strong>
-                <span>${escapeHTML(review.date)}</span>
+                <div>
+                    <strong>${escapeHTML(review.author)}</strong>
+                    <span>${escapeHTML(review.date)}</span>
+                </div>
+                ${canManageReview(review) ? `<button class="btn-text danger" type="button" data-delete-review="${escapeHTML(review.id)}">刪除</button>` : ""}
             </div>
             <div class="review-stars">★ ${escapeHTML(review.rating)}</div>
             <p>${escapeHTML(review.comment)}</p>
         </article>
     `).join("");
+
+    list.querySelectorAll("[data-delete-review]").forEach(button => {
+        button.addEventListener("click", () => {
+            if (!window.confirm("確定要刪除這則評價嗎？")) return;
+            deleteReview(button.dataset.deleteReview);
+            renderProductReviews(product);
+        });
+    });
 }
 
 function setupProductReviewForm(product) {
