@@ -507,11 +507,33 @@ function changeCartQuantity(productId, delta) {
     updateCartCount();
 }
 
+function setCartQuantity(productId, quantity) {
+    const item = cart.find(cartItem => Number(cartItem.id) === Number(productId));
+    if (!item) return;
+    item.qty = Math.min(20, Math.max(1, Number(quantity) || 1));
+    writeStorage(STORE.cart, cart);
+    renderCartPage();
+    updateCartCount();
+}
+
 function removeCartItem(productId) {
     cart = cart.filter(item => Number(item.id) !== Number(productId));
     writeStorage(STORE.cart, cart);
     renderCartPage();
     updateCartCount();
+}
+
+function updateShippingProgress(subtotal) {
+    const bar = document.getElementById("shipping-progress-bar");
+    const text = document.getElementById("shipping-progress-text");
+    if (!bar || !text) return;
+
+    const target = 3000;
+    const percent = Math.min(100, Math.round((subtotal / target) * 100));
+    bar.style.width = `${percent}%`;
+    text.textContent = subtotal >= target
+        ? "已達免運門檻"
+        : `再 NT$ ${money(target - subtotal)} 免運`;
 }
 
 function renderCartPage() {
@@ -544,7 +566,7 @@ function renderCartPage() {
                     <div class="cart-item-actions">
                         <div class="qty-control">
                             <button type="button" data-cart-minus="${item.id}" aria-label="減少${item.name}數量">−</button>
-                            <input type="number" value="${item.qty}" readonly aria-label="${item.name}數量">
+                            <input type="number" value="${item.qty}" min="1" max="20" inputmode="numeric" data-cart-qty="${item.id}" aria-label="${item.name}數量">
                             <button type="button" data-cart-plus="${item.id}" aria-label="增加${item.name}數量">＋</button>
                         </div>
                         <button class="text-button danger" type="button" data-cart-remove="${item.id}">移除</button>
@@ -559,11 +581,16 @@ function renderCartPage() {
 
     document.getElementById("cart-subtotal").textContent = money(subtotal);
     document.getElementById("cart-total").textContent = money(subtotal);
+    updateShippingProgress(subtotal);
     document.querySelectorAll("[data-cart-minus]").forEach(button => {
         button.addEventListener("click", () => changeCartQuantity(button.dataset.cartMinus, -1));
     });
     document.querySelectorAll("[data-cart-plus]").forEach(button => {
         button.addEventListener("click", () => changeCartQuantity(button.dataset.cartPlus, 1));
+    });
+    document.querySelectorAll("[data-cart-qty]").forEach(input => {
+        input.addEventListener("change", () => setCartQuantity(input.dataset.cartQty, input.value));
+        input.addEventListener("blur", () => setCartQuantity(input.dataset.cartQty, input.value));
     });
     document.querySelectorAll("[data-cart-remove]").forEach(button => {
         button.addEventListener("click", () => removeCartItem(button.dataset.cartRemove));

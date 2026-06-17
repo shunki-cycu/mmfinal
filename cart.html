@@ -28,7 +28,14 @@
                     <h2>金額摘要</h2>
                     <div class="summary-line"><span>商品小計</span><strong>NT$ <span id="cart-subtotal">0</span></strong></div>
                     <div class="summary-line total"><span>目前合計</span><strong>NT$ <span id="cart-total">0</span></strong></div>
-                    <p class="summary-note">實際運費會依結帳頁選擇的配送方式計算，滿 NT$3,000 免運。</p>
+                    <div class="shipping-progress" aria-label="免運進度">
+                        <div class="shipping-progress-head">
+                            <span>免運進度</span>
+                            <strong id="shipping-progress-text">滿 NT$3,000 免運</strong>
+                        </div>
+                        <div class="shipping-progress-track"><span id="shipping-progress-bar"></span></div>
+                        <small>運費會依結帳頁選擇的配送方式計算。</small>
+                    </div>
                     <a class="btn btn-block" id="go-checkout" href="checkout.html">前往結帳</a>
                     <a class="text-link" href="products.html">← 繼續選購</a>
                 </aside>
