@@ -25,7 +25,7 @@
     "age": ["幼年"],
     "size": ["小型", "中型"],
     "price": 920,
-    "image": "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=900&q=80",
+    "image": "images/chicken.png",
     "icon": "🐶",
     "description": "小顆粒好入口，加入 DHA 與鈣質，陪幼犬穩定長大。",
     "ingredients": "雞肉、糙米、蛋黃、魚油、乳酸鈣",
