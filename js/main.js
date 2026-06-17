@@ -131,6 +131,20 @@ function sortByRecommendation(products) {
     });
 }
 
+function hasProductQuery(query) {
+    return ["q", "pet", "age", "size", "category"].some(key => query.has(key));
+}
+
+function applyMemberFilters(controls, query) {
+    const pet = currentUser?.pet;
+    if (!pet || hasProductQuery(query)) return false;
+
+    controls.pet.value = pet.type || "";
+    controls.age.value = pet.age || "";
+    controls.size.value = pet.size || "";
+    return Boolean(controls.pet.value || controls.age.value || controls.size.value);
+}
+
 function compatibility(product) {
     const pet = currentUser?.pet;
     if (!pet) return { className: "", label: "" };
@@ -258,7 +272,10 @@ function setupProductsPage() {
     const query = new URLSearchParams(window.location.search);
     controls.keyword.value = query.get("q") || "";
     controls.pet.value = query.get("pet") || "";
+    controls.age.value = query.get("age") || "";
+    controls.size.value = query.get("size") || "";
     controls.category.value = query.get("category") || "";
+    let usingMemberFilters = applyMemberFilters(controls, query);
 
     const applyFilters = () => {
         const keyword = controls.keyword.value.trim().toLowerCase();
@@ -272,7 +289,9 @@ function setupProductsPage() {
         });
 
         const sorted = sortByRecommendation(filtered);
-        resultCount.textContent = `找到 ${sorted.length} 件商品`;
+        resultCount.textContent = usingMemberFilters
+            ? `已依毛孩資料篩選，找到 ${sorted.length} 件商品`
+            : `找到 ${sorted.length} 件商品`;
         grid.innerHTML = sorted.length
             ? sorted.map(productCard).join("")
             : `<div class="empty-state full-span"><span>🔎</span><h3>沒有符合條件的商品</h3><p>換個關鍵字，或少選一個條件再看看。</p></div>`;
@@ -281,10 +300,14 @@ function setupProductsPage() {
     };
 
     Object.values(controls).forEach(control => {
-        control.addEventListener(control.tagName === "INPUT" ? "input" : "change", applyFilters);
+        control.addEventListener(control.tagName === "INPUT" ? "input" : "change", () => {
+            usingMemberFilters = false;
+            applyFilters();
+        });
     });
     document.getElementById("clear-filters")?.addEventListener("click", () => {
         Object.values(controls).forEach(control => { control.value = ""; });
+        usingMemberFilters = false;
         applyFilters();
     });
     applyFilters();

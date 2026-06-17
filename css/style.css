@@ -58,6 +58,7 @@ h1, h2, h3, p { margin-top: 0; }
     background: var(--green-900);
     text-align: center;
     font-size: 0.84rem;
+    line-height: 1.45;
 }
 .site-header {
     position: sticky;
@@ -615,6 +616,7 @@ h1, h2, h3, p { margin-top: 0; }
 [hidden] { display: none !important; }
 
 @media (max-width: 1020px) {
+    .site-header { position: relative; top: auto; }
     .header-inner { grid-template-columns: auto 1fr auto; gap: 16px; }
     .global-search-form { grid-column: 1 / -1; grid-row: 2; padding-bottom: 13px; max-width: none; }
     .menu-toggle { display: block; justify-self: end; }
@@ -643,8 +645,8 @@ h1, h2, h3, p { margin-top: 0; }
 
 @media (max-width: 760px) {
     .container, .narrow-container { width: min(100% - 28px, 1180px); }
-    .top-note { font-size: 0.75rem; }
-    .header-inner { min-height: 66px; }
+    .top-note { padding: 8px 16px; font-size: 0.75rem; }
+    .header-inner { min-height: 68px; padding-block: 6px; }
     .brand-copy small { display: none; }
     .hero { padding-block: 42px; }
     .hero-grid, .product-detail-layout, .auth-layout, .about-hero { grid-template-columns: 1fr; gap: 28px; }
@@ -680,7 +682,10 @@ h1, h2, h3, p { margin-top: 0; }
 }
 
 @media (max-width: 520px) {
-    .brand-copy { font-size: 0.9rem; }
+    .top-note { padding-inline: 14px; font-size: 0.72rem; }
+    .header-inner { grid-template-columns: minmax(0, 1fr) auto; gap: 12px; }
+    .brand { min-width: 0; }
+    .brand-copy { overflow: hidden; font-size: 0.9rem; text-overflow: ellipsis; white-space: nowrap; }
     .brand-mark { width: 37px; height: 37px; }
     .hero-actions, .purchase-row, .success-actions { align-items: stretch; flex-direction: column; }
     .hero-actions .btn, .purchase-row .btn, .success-actions .btn { width: 100%; }
