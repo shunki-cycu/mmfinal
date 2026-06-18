@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         productsData = await response.json();
     } catch (error) {
         console.error(error);
-        showPageMessage("商品資料暫時無法載入，請稍後再試。");
+        showPageMessage("商品資料目前無法載入，請稍後再試。");
         return;
     }
 
@@ -75,7 +75,7 @@ function setupHeader() {
     updateCartCount();
     document.querySelectorAll("[data-member-link]").forEach(link => {
         link.href = currentUser ? "member.html" : "login.html";
-        link.textContent = currentUser ? `嗨，${currentUser.name}` : "會員登入";
+        link.textContent = currentUser ? `您好，${currentUser.name}` : "會員登入";
     });
 
     const menuButton = document.querySelector(".menu-toggle");
@@ -230,7 +230,7 @@ function renderPromoCarousel() {
             <a class="promo-slide" href="product.html?id=${product.id}">
                 <div class="promo-image"><img src="${product.image}" alt="${product.name}"></div>
                 <div class="promo-copy">
-                    <span class="eyebrow">點擊看商品</span>
+                    <span class="eyebrow">點擊查看商品</span>
                     <h3>${product.name}</h3>
                     <p>${product.description}</p>
                     <div class="rating-row"><span>★ ${product.rating}</span><span>${product.reviews} 則評價</span></div>
@@ -294,7 +294,7 @@ function setupProductsPage() {
             : `找到 ${sorted.length} 件商品`;
         grid.innerHTML = sorted.length
             ? sorted.map(productCard).join("")
-            : `<div class="empty-state full-span"><span>🔎</span><h3>沒有符合條件的商品</h3><p>換個關鍵字，或少選一個條件再看看。</p></div>`;
+            : `<div class="empty-state full-span"><span>🔎</span><h3>沒有符合條件的商品</h3><p>請嘗試更換關鍵字，或減少篩選條件。</p></div>`;
         bindAddCartButtons(grid);
         bindProductCards(grid);
     };
@@ -349,7 +349,7 @@ function renderProductDetailPage() {
                 <div class="purchase-row">
                     <div class="qty-control" aria-label="商品數量">
                         <button type="button" id="qty-minus" aria-label="減少數量">−</button>
-                        <input id="product-qty" type="number" value="1" min="1" max="20" readonly>
+                        <input id="product-qty" type="number" value="1" min="1" max="20" inputmode="numeric">
                         <button type="button" id="qty-plus" aria-label="增加數量">＋</button>
                     </div>
                     <button class="btn btn-secondary" type="button" id="detail-add-cart">加入購物車</button>
@@ -366,7 +366,7 @@ function renderProductDetailPage() {
                 <div>
                     <div class="review-summary">
                         <strong>★ ${product.rating}</strong>
-                        <span>${product.reviews} 則既有評價，加上會員投稿會即時顯示。</span>
+                        <span>${product.reviews} 則既有評價，會員投稿後會即時顯示。</span>
                     </div>
                     <div class="review-list" id="product-review-list"></div>
                 </div>
@@ -374,7 +374,7 @@ function renderProductDetailPage() {
             </div>
         </section>
         <section class="related-section">
-            <div class="section-heading"><div><span class="eyebrow">也可以看看</span><h2>適合一起帶回家的商品</h2></div></div>
+            <div class="section-heading"><div><span class="eyebrow">您可能也會喜歡</span><h2>適合一起帶回家的商品</h2></div></div>
             <div class="product-grid" id="related-products"></div>
         </section>
     `;
@@ -383,17 +383,28 @@ function renderProductDetailPage() {
     setupProductReviewForm(product);
 
     const quantity = document.getElementById("product-qty");
+    const normalizeQuantity = () => {
+        quantity.value = Math.min(20, Math.max(1, Number(quantity.value) || 1));
+    };
     document.getElementById("qty-minus").addEventListener("click", () => {
+        normalizeQuantity();
         quantity.value = Math.max(1, Number(quantity.value) - 1);
     });
     document.getElementById("qty-plus").addEventListener("click", () => {
+        normalizeQuantity();
         quantity.value = Math.min(20, Number(quantity.value) + 1);
     });
+    quantity.addEventListener("input", () => {
+        if (Number(quantity.value) > 20) quantity.value = 20;
+    });
+    quantity.addEventListener("blur", normalizeQuantity);
     document.getElementById("detail-add-cart").addEventListener("click", () => {
+        normalizeQuantity();
         addToCart(product.id, Number(quantity.value));
         showToast(`已加入 ${quantity.value} 件商品`);
     });
     document.getElementById("buy-now").addEventListener("click", () => {
+        normalizeQuantity();
         addToCart(product.id, Number(quantity.value));
         window.location.href = "cart.html";
     });
@@ -474,7 +485,7 @@ function setupProductReviewForm(product) {
     if (!currentUser) {
         card.innerHTML = `
             <h3>我要留下評價</h3>
-            <p>登入會員後，可以投稿商品評價，並在會員中心查看自己的評價紀錄。</p>
+            <p>登入會員後即可投稿商品評價，並在會員中心查看自己的評價紀錄。</p>
             <a class="btn btn-block" href="login.html">先登入會員</a>
         `;
         return;
@@ -526,7 +537,7 @@ function setupProductReviewForm(product) {
             createdAt: now.toISOString()
         });
         writeStorage(STORE.reviews, reviews);
-        message.textContent = "評價已送出，會員中心也會顯示這筆紀錄。";
+        message.textContent = "評價已送出，這筆紀錄也會顯示在會員中心。";
         message.className = "form-message success";
         event.target.reset();
         renderProductReviews(product);
@@ -590,7 +601,7 @@ function renderCartPage() {
     if (!details.length) {
         container.innerHTML = `
             <div class="empty-state">
-                <span>🛒</span><h2>購物車還是空的</h2>
+                <span>🛒</span><h2>購物車目前是空的</h2>
                 <p>先去逛逛，找到適合家中毛孩的用品吧。</p>
                 <a class="btn" href="products.html">前往商品總覽</a>
             </div>`;

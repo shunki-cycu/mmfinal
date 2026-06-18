@@ -49,7 +49,7 @@ function setupLoginForm() {
         }
 
         memberWrite("currentUser", user);
-        message.textContent = "登入成功，正在回到首頁。";
+        message.textContent = "登入成功，即將返回首頁。";
         message.className = "form-message success";
         window.setTimeout(() => { window.location.href = "index.html"; }, 500);
     });
